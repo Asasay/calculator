@@ -1,38 +1,66 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section { display: block;}
+body { line-height: 1;}
+ol,ul { list-style: none;}
+blockquote,q { quotes: none;}
+blockquote:before,blockquote:after,q:before,q:after { content: ''; content: none;}
+table { border-collapse: collapse; border-spacing: 0;}
+
+body {
+  font-family: Russo One, sans-serif;
+  font-size: 36px;
+  color: white;
+  box-sizing: border-box;
+}
+
 .App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #4aa3a3;
+}
+#container {
+  width: 400px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#container > p {
+  font-size: 1.5em;
+  text-decoration: underline;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+button {
+  display: inline-block;
+  background: none;
+  outline: none;
+  border: none;
   color: white;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+#break p, #session p {
+  display: inline-block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#break, #session {
+  font-size: larger;
+  display: inline-block;
+  margin: 30px;
+  margin-bottom: 10px;
+}
+label {
+  display: block;
+  font-size: 1rem;
+}
+#timer {
+  border: 5px solid #2a7d8b;
+  border-radius: 20px;
+  width: fit-content;
+  padding: 10px 20px;
+  margin: 10px auto;
+}
+
+#time-left {
+  font-size: 2em;
 }
