@@ -1,217 +1,104 @@
-import "./App.css";
+import "./App.scss";
 import React from "react";
-import { useState, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faPause,
-  faRotateRight,
-  faArrowDown,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+
+const isNumber = (str) =>
+  str.length === str.trim().length && str.length > 0 && Number(str) >= 0;
 
 function App() {
-  const [status, setStatus] = useState("session pause");
-  const [breakLength, setBreakLength] = useState(1);
-  const [sessionLength, setSessionLength] = useState(1);
-  const [timer, setTimer] = useState({ minutes: 0, seconds: 3 });
+  const [formula, setFormula] = useState("");
+  const [display, setDisplay] = useState("");
+  const [evaluation, setEvaluation] = useState("");
+
+  function handleClick(e) {
+    let btn = e.target;
+    let btnValue = btn.firstChild.nodeValue;
+    if (btn.nodeName !== "BUTTON") return;
+    switch (btn.id) {
+      case "equals":
+        let clearFormula = formula.replace(/\D+([\+\*\/])/g, "$1");
+        clearFormula = clearFormula.replace(/\-(\-\d)/g, "$1");
+        let result = eval(clearFormula);
+        setDisplay(result);
+        setFormula(clearFormula + "=" + result);
+        setEvaluation(result);
+        break;
+      case "clear":
+        setDisplay("0");
+        setFormula("");
+        setEvaluation("");
+        break;
+      case "zero":
+      case "one":
+      case "two":
+      case "three":
+      case "four":
+      case "five":
+      case "six":
+      case "seven":
+      case "eight":
+      case "nine":
+        if (evaluation != "") {
+          setFormula(btnValue);
+          setDisplay(btnValue);
+          setEvaluation("");
+        } else if (isNumber(display) && display !== "0") {
+          setDisplay(display + btnValue);
+          setFormula(formula + btnValue);
+        } else {
+          setDisplay(btnValue);
+          setFormula(formula + btnValue);
+        }
+
+        break;
+      case "decimal":
+        if (isNumber(display)) {
+          //if not integer break
+          if (!/^\-?(0|[1-9]\d*)$/.test(display)) break;
+          setDisplay(display + ".");
+          setFormula(formula + ".");
+        } else {
+          setDisplay(display + "0.");
+          setFormula(formula + "0.");
+        }
+        break;
+      default:
+        if (evaluation != "") {
+          setDisplay(btnValue);
+          setFormula(evaluation + btnValue);
+          setEvaluation("");
+        } else {
+          setFormula(formula.replace(/\D+([\+\*\/])/g, "$1") + btnValue);
+          setDisplay(btnValue);
+        }
+    }
+  }
+
   return (
     <div className="App">
-      <div id="container">
-        <p>25 + 5 Clock</p>
-        <Break
-          breakLength={breakLength}
-          setBreakLength={setBreakLength}
-          status={status}
-        />
-        <Session
-          sessionLength={sessionLength}
-          setSessionLength={setSessionLength}
-          setTimer={setTimer}
-          status={status}
-        />
-        <Timer timer={timer} status={status} />
-        <Controls
-          breakLength={breakLength}
-          sessionLength={sessionLength}
-          timer={timer}
-          setTimer={setTimer}
-          status={status}
-          setStatus={setStatus}
-        />
+      <div id="calculator" onClick={handleClick}>
+        <div id="formula">{formula}</div>
+        <div id="display">{display}</div>
+        <button id="clear">AC</button>
+        <button id="divide">/</button>
+        <button id="multiply">*</button>
+        <button id="seven">7</button>
+        <button id="eight">8</button>
+        <button id="nine">9</button>
+        <button id="subtract">-</button>
+        <button id="one">1</button>
+        <button id="two">2</button>
+        <button id="three">3</button>
+        <button id="four">4</button>
+        <button id="five">5</button>
+        <button id="six">6</button>
+        <button id="add">+</button>
+        <button id="zero">0</button>
+        <button id="decimal">.</button>
+        <button id="equals">=</button>
       </div>
     </div>
   );
 }
 
-function Break(props) {
-  let handleClick = (e) => {
-    if (props.status == "session" || props.status == "break") return;
-    let targetID = e.currentTarget.id;
-    if (targetID === "break-increment" && props.breakLength < 60)
-      props.setBreakLength(props.breakLength + 1);
-    if (targetID === "break-decrement" && props.breakLength > 1)
-      props.setBreakLength(props.breakLength - 1);
-  };
-  return (
-    <div id="break">
-      <label for="break-length" id="break-label">
-        Break Length
-      </label>
-      <button id="break-increment" onClick={handleClick}>
-        <FontAwesomeIcon icon={faArrowUp} size={"2x"} />
-      </button>
-      <p id="break-length">{props.breakLength}</p>
-      <button id="break-decrement" onClick={handleClick}>
-        <FontAwesomeIcon icon={faArrowDown} size={"2x"} />
-      </button>
-    </div>
-  );
-}
-
-function Session(props) {
-  let handleClick = (e) => {
-    if (props.status == "session" || props.status == "break") return;
-    let targetID = e.currentTarget.id;
-    if (targetID === "session-increment" && props.sessionLength < 60) {
-      props.setTimer({ minutes: props.sessionLength + 1, seconds: 0 });
-      props.setSessionLength(props.sessionLength + 1);
-    }
-    if (targetID === "session-decrement" && props.sessionLength > 1) {
-      props.setTimer({ minutes: props.sessionLength - 1, seconds: 0 });
-      props.setSessionLength(props.sessionLength - 1);
-    }
-  };
-  return (
-    <div id="session">
-      <label for="session-length" id="session-label">
-        Session Length
-      </label>
-      <button id="session-increment" onClick={handleClick}>
-        <FontAwesomeIcon icon={faArrowUp} size={"2x"} />
-      </button>
-      <p id="session-length">{props.sessionLength}</p>
-      <button id="session-decrement" onClick={handleClick}>
-        <FontAwesomeIcon icon={faArrowDown} size={"2x"} />
-      </button>
-    </div>
-  );
-}
-
-function Timer(props) {
-  return (
-    <div id="timer">
-      <label for="time-left" id="timer-label">
-        {props.status}
-      </label>
-      <p id="time-left">
-        {props.timer.minutes}:{props.timer.seconds}
-      </p>
-    </div>
-  );
-}
-//sesp->ses->brp->br->sesp
-function Controls(props) {
-  const timerIdRef = useRef(0);
-  /* let startTimer = () => {
-    switch(props.status) {
-      case "session pause": 
-      case "break pause":
-        if (props.status==="session pause") props.setStatus('session');
-        if (props.status==="break pause") props.setStatus('break');
-        let futureDate = new Date(Date.now() + props.timer.minutes * 60000 + props.timer.seconds * 1000);
-        
-        timerUpdate = setInterval(()=>{
-          let intervalInSeconds = (futureDate-Date.now())/1000;
-
-          if (intervalInSeconds <= 0) {
-            if (props.status === "session") {
-              console.log("interval<0 " + props.status);
-              props.setStatus("break pause");
-              props.setTimer({minutes: props.breakLength, seconds: 0});
-            }
-            else if (props.status === "break") {
-              console.log("interval<0 " + props.status);
-              props.setStatus("session pause");
-              props.setTimer({minutes: props.sessionLength, seconds: 0});
-            }
-            clearInterval(timerUpdate);
-            startTimer();
-          } 
-          else {
-            props.setTimer({minutes: Math.floor(intervalInSeconds/60), seconds: Math.floor(intervalInSeconds%60)});
-          } 
-        }, 100);
-        break;
-        
-      case "session": 
-        clearInterval(timerUpdate);
-        props.setStatus('session pause');
-        break;
-
-      case "break":
-        clearInterval(timerUpdate);
-        props.setStatus('break pause');
-        break;
-
-      default: return;
-    }
-  }; */
-  let startStop = () => {
-    switch (props.status) {
-      case "session":
-      case "break":
-        stopTimer();
-        break;
-      case "session pause":
-      case "break pause":
-        startTimer();
-        break;
-      default:
-        return;
-    }
-  };
-  function startTimer() {
-    let futureDate = new Date(
-      Date.now() + props.timer.minutes * 60000 + props.timer.seconds * 1000
-    );
-    props.status === "session pause" ? props.setStatus("session") : props.setStatus("break");
-    timerIdRef.current = setInterval(() => {
-      let intervalInSeconds = (futureDate - Date.now()) / 1000;
-      if (intervalInSeconds <= 0) {
-        if (props.status === "session") {
-          console.log("interval<0 " + props.status);
-          props.setStatus("break");
-          props.setTimer({ minutes: props.breakLength, seconds: 0 });
-        } else if (props.status === "break") {
-          console.log("interval<0 " + props.status);
-          props.setStatus("session");
-          props.setTimer({ minutes: props.sessionLength, seconds: 0 });
-        }
-        clearInterval(timerIdRef.current);
-        startTimer();
-      } else {
-        props.setTimer({
-          minutes: Math.floor(intervalInSeconds / 60),
-          seconds: Math.floor(intervalInSeconds % 60),
-        });
-      }
-    }, 100);
-  }
-  function stopTimer() {
-    clearInterval(timerIdRef.current);
-    props.setStatus(props.status + " pause");
-  }
-  return (
-    <div id="controls">
-      <button id="start_stop" onClick={startStop}>
-        <FontAwesomeIcon icon={faPlay} size={"2x"} />
-        <FontAwesomeIcon icon={faPause} size={"2x"} />
-      </button>
-      <button id="reset">
-        <FontAwesomeIcon icon={faRotateRight} size={"2x"} />
-      </button>
-    </div>
-  );
-}
 export default App;

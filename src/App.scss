@@ -1,0 +1,278 @@
+@import "https://fonts.googleapis.com/css?family=Share+Tech+Mono";
+@font-face {
+  font-family: "Digital";
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot");
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.svg#Digital-7")
+      format("svg");
+}
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  font-family: Russo One, sans-serif;
+  font-size: 26px;
+  color: white;
+  box-sizing: border-box;
+  background-color: #c2c2d6;
+}
+
+$bg-light-gray: #666666;
+$bg-dark-gray: #4d4d4d;
+
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #calculator {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: 30px 30px repeat(5, 65px);
+    gap: 1px 1px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "formula formula formula formula"
+      "display display display display"
+      "clear clear divide multiply"
+      "seven eight nine subtract"
+      "four five six plus"
+      "one two three equals"
+      "zero zero decimal equals";
+    padding: 5px;
+    text-align: center;
+    background-color: black;
+
+    button {
+      background-color: $bg-dark-gray;
+      border: none;
+      color: white;
+      font-family: Tech Mono, monospace;
+      font-size: 1.2rem;
+      &:hover {
+        color: black;
+        border: 1px solid gray;
+      }
+    }
+    #divide,
+    #multiply,
+    #subtract,
+    #add {
+      background-color: $bg-light-gray;
+    }
+    #formula {
+      grid-area: formula;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      font-family: Digital;
+      color: orange;
+      font-size: smaller;
+    }
+    #display {
+      grid-area: display;
+      font-family: Digital;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+    #clear {
+      grid-area: clear;
+      background-color: rgb(172, 57, 57);
+    }
+
+    #divide {
+      grid-area: divide;
+    }
+
+    #multiply {
+      grid-area: multiply;
+    }
+
+    #seven {
+      grid-area: seven;
+    }
+
+    #eight {
+      grid-area: eight;
+    }
+
+    #nine {
+      grid-area: nine;
+    }
+
+    #subtract {
+      grid-area: subtract;
+    }
+
+    #one {
+      grid-area: one;
+    }
+
+    #two {
+      grid-area: two;
+    }
+
+    #three {
+      grid-area: three;
+    }
+
+    #four {
+      grid-area: four;
+    }
+
+    #five {
+      grid-area: five;
+    }
+
+    #six {
+      grid-area: six;
+    }
+
+    #add {
+      grid-area: plus;
+    }
+
+    #zero {
+      grid-area: zero;
+    }
+
+    #decimal {
+      grid-area: decimal;
+    }
+
+    #equals {
+      grid-area: equals;
+      background-color: #004466;
+    }
+  }
+}
