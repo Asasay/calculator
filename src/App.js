@@ -16,8 +16,8 @@ function App() {
     if (btn.nodeName !== "BUTTON") return;
     switch (btn.id) {
       case "equals":
-        let clearFormula = formula.replace(/\D+([\+\*\/])/g, "$1");
-        clearFormula = clearFormula.replace(/\-(\-\d)/g, "$1");
+        let clearFormula = formula.replace(/\D+([+*/])/g, "$1");
+        clearFormula = clearFormula.replace(/-(-\d)/g, "$1");
         let result = eval(clearFormula);
         setDisplay(result);
         setFormula(clearFormula + "=" + result);
@@ -38,7 +38,7 @@ function App() {
       case "seven":
       case "eight":
       case "nine":
-        if (evaluation != "") {
+        if (evaluation !== "") {
           setFormula(btnValue);
           setDisplay(btnValue);
           setEvaluation("");
@@ -54,7 +54,7 @@ function App() {
       case "decimal":
         if (isNumber(display)) {
           //if not integer break
-          if (!/^\-?(0|[1-9]\d*)$/.test(display)) break;
+          if (!/^-?(0|[1-9]\d*)$/.test(display)) break;
           setDisplay(display + ".");
           setFormula(formula + ".");
         } else {
@@ -63,12 +63,12 @@ function App() {
         }
         break;
       default:
-        if (evaluation != "") {
+        if (evaluation !== "") {
           setDisplay(btnValue);
           setFormula(evaluation + btnValue);
           setEvaluation("");
         } else {
-          setFormula(formula.replace(/\D+([\+\*\/])/g, "$1") + btnValue);
+          setFormula(formula.replace(/\D+([+*/])/g, "$1") + btnValue);
           setDisplay(btnValue);
         }
     }
